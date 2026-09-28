@@ -1,0 +1,28 @@
+HOW TO RUN — Multi-Agent LLM Workflow
+=====================================
+
+1. Install dependencies:
+       pip install -r requirements.txt
+
+2. (Optional) Choose an LLM backend for the agents:
+   a) Claude:       export ANTHROPIC_API_KEY="sk-ant-..."
+   b) Local model:  export USE_LOCAL_LLM=1
+                    export LOCAL_LLM_MODEL="qwen3:4b"   # any installed Ollama model
+                    (needs a local Ollama server: https://ollama.com)
+   Priority is Claude -> local -> mock. With none set it runs offline with a
+   deterministic MockLLM — the analyst -> execute -> critic -> retry loop is
+   identical across all three.
+
+3. Generate the sample sales dataset:
+       python3 src/generate_data.py
+
+4. Run the workflow on the default questions:
+       python3 src/orchestrator.py
+
+5. Ask your own question(s):
+       python3 src/orchestrator.py "Which product has the highest total profit?"
+
+6. See the self-correction loop (first attempt errors, agents recover):
+       python3 src/orchestrator.py "Give me a statistical summary of the data"
+
+Or just run everything:  ./run.sh
